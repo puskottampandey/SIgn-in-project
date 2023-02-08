@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:signin/authenticate/register.dart';
 import 'package:signin/home/home.dart';
 import 'package:signin/services/auth.dart';
 
@@ -118,11 +119,19 @@ class _SignInState extends State<SignIn> {
                       "Don't have a Login?",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      "Register",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: (Colors.brown.shade400)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) => const Register())));
+                      },
+                      child: Text(
+                        "Register",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: (Colors.brown.shade400)),
+                      ),
                     ),
                   ],
                 )
