@@ -12,6 +12,13 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   String email = "";
   String password = "";
+  bool _obscureText = true;
+  void visibletest() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,8 +67,15 @@ class _SignInState extends State<SignIn> {
                 TextFormField(
                   cursorHeight: 30,
                   cursorColor: Colors.brown.shade400,
-                  obscureText: true,
+                  obscureText: _obscureText,
                   decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      color: (Colors.brown.shade400),
+                      onPressed: visibletest,
+                      icon: Icon(_obscureText
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                    ),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(32),
                         borderSide: BorderSide(color: Colors.brown.shade800)),
