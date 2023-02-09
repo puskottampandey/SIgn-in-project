@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 class Users {
-  final String? uid;
-  Users({this.uid});
+  final String? email;
+  final int? password;
+  Users({this.email, this.password});
 }

@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:signin/authenticate/register.dart';
 import 'package:signin/home/home.dart';
 import 'package:signin/services/auth.dart';
+import 'package:signin/models/user.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -11,6 +14,9 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final FirebaseFirestore _store = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Users user = Users();
   String email = "";
   String password = "";
   bool _obscureText = true;
@@ -18,6 +24,17 @@ class _SignInState extends State<SignIn> {
     setState(() {
       _obscureText = !_obscureText;
     });
+  }
+
+  Future siginin() async {
+    try {
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      User? user = result.user;
+      return user;
+    } catch (e) {
+      ("error");
+    }
   }
 
   @override
@@ -92,7 +109,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 const Padding(
                     padding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 100)),
+                        EdgeInsets.symmetric(vertical: 8, horizontal: 450)),
                 Text(
                   "Forget password?",
                   style: TextStyle(
@@ -108,7 +125,16 @@ class _SignInState extends State<SignIn> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Colors.brown.shade400),
                     ),
-                    onPressed: () async {},
+                    onPressed: () async {
+                      FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                              email: email, password: password)
+                          .then((user) {
+                        Navigator.of(context).restorablePushNamed('/home');
+                      }).catchError((e) {
+                        (e);
+                      });
+                    },
                     child: const Text("Sigin"),
                   ),
                 ),
@@ -124,6 +150,7 @@ class _SignInState extends State<SignIn> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
+                                settings: const RouteSettings(),
                                 builder: ((context) => const Register())));
                       },
                       child: Text(

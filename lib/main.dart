@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:signin/authenticate/register.dart';
+import 'package:signin/authenticate/sign_in.dart';
+import 'package:signin/home/home.dart';
 import 'package:signin/screen/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -14,9 +17,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Wrapper(),
+      home: const Wrapper(),
+      routes: <String, WidgetBuilder>{
+        "/signin": (BuildContext context) => const SignIn(),
+        "/register": (BuildContext context) => const Register(),
+        "/home": (BuildContext context) => const Home(),
+      },
     );
   }
 }
