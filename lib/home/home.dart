@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +14,7 @@ class Home extends StatelessWidget {
         title: GestureDetector(
           onTap: () async {
             FirebaseAuth.instance.signOut().then((value) {
-              Navigator.of(context).pushReplacementNamed('SiginIn');
+              Navigator.of(context).pushReplacementNamed('/siginin');
             }).catchError((e) {
               (e);
             });

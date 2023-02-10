@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:signin/authenticate/register.dart';
@@ -14,9 +13,6 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final FirebaseFirestore _store = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final Users user = Users();
   String email = "";
   String password = "";
   bool _obscureText = true;
@@ -24,17 +20,6 @@ class _SignInState extends State<SignIn> {
     setState(() {
       _obscureText = !_obscureText;
     });
-  }
-
-  Future siginin() async {
-    try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      User? user = result.user;
-      return user;
-    } catch (e) {
-      ("error");
-    }
   }
 
   @override
@@ -129,8 +114,8 @@ class _SignInState extends State<SignIn> {
                       FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: email, password: password)
-                          .then((user) {
-                        Navigator.of(context).restorablePushNamed('/home');
+                          .then((UserCredential user) {
+                        Navigator.of(context).pushReplacementNamed('/home');
                       }).catchError((e) {
                         (e);
                       });
