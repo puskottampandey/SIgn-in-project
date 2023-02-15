@@ -4,7 +4,6 @@ import 'package:signin/models/user.dart';
 import 'package:signin/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:signin/models/user_management.dart';
-import 'package:http/http.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -108,8 +107,8 @@ class _RegisterState extends State<Register> {
                     FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
                             email: email, password: password)
-                        .then((signedInUser) {
-                      Usermanagement().storeNewUser(user, context);
+                        .then((value) {
+                      Navigator.of(context).pushReplacementNamed('/signin');
                     }).catchError((e) {
                       (e);
                     });

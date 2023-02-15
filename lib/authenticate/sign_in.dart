@@ -114,7 +114,7 @@ class _SignInState extends State<SignIn> {
                       FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: email, password: password)
-                          .then((UserCredential user) {
+                          .then((value) {
                         Navigator.of(context).pushReplacementNamed('/home');
                       }).catchError((e) {
                         (e);
