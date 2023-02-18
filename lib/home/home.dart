@@ -11,19 +11,6 @@ class Home extends StatelessWidget {
         actions: const [
           Icon(Icons.person),
         ],
-        title: GestureDetector(
-          onTap: () async {
-            FirebaseAuth.instance.signOut().then((value) {
-              Navigator.of(context).pushReplacementNamed('/siginin');
-            }).catchError((e) {
-              (e);
-            });
-          },
-          child: const Text(
-            "logOut",
-            textAlign: TextAlign.end,
-          ),
-        ),
       ),
     );
   }
