@@ -13,10 +13,11 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final _emailcontroller = TextEditingController();
+  final _passwordcontroller = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Users user = Users();
-  String email = "";
-  String password = "";
+
   bool _obscureText = true;
   void visibletest() {
     setState(() {
@@ -48,6 +49,8 @@ class _RegisterState extends State<Register> {
               ),
               const SizedBox(height: 40),
               TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                controller: _emailcontroller,
                 cursorColor: Colors.brown.shade800,
                 cursorHeight: 30,
                 decoration: InputDecoration(
@@ -63,14 +66,13 @@ class _RegisterState extends State<Register> {
                       ),
                       borderRadius: BorderRadius.circular(32)),
                 ),
-                onChanged: (val) {
-                  setState(() => email = val);
-                },
               ),
               const SizedBox(
                 height: 40.0,
               ),
               TextFormField(
+                keyboardType: TextInputType.text,
+                controller: _passwordcontroller,
                 cursorHeight: 30,
                 cursorColor: Colors.brown.shade400,
                 obscureText: _obscureText,
@@ -90,9 +92,6 @@ class _RegisterState extends State<Register> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(32)),
                 ),
-                onChanged: (val) {
-                  setState(() => password = val);
-                },
               ),
               const Padding(padding: EdgeInsets.all(10)),
               SizedBox(
@@ -104,16 +103,20 @@ class _RegisterState extends State<Register> {
                         MaterialStateProperty.all<Color>(Colors.brown.shade400),
                   ),
                   onPressed: () async {
-                    FirebaseAuth.instance
+                    await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
-                            email: email, password: password)
+                            email: _emailcontroller.text,
+                            password: _passwordcontroller.text)
                         .then((value) {
                       Navigator.of(context).pushReplacementNamed('/signin');
                     }).catchError((e) {
                       (e);
                     });
                   },
-                  child: const Text("Register"),
+                  child: const Text(
+                    "Register",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],

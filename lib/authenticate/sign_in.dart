@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:signin/authenticate/register.dart';
-import 'package:signin/home/home.dart';
-import 'package:signin/services/auth.dart';
-import 'package:signin/models/user.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -13,8 +10,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  String email = "";
-  String password = "";
+  final _emailcontroller = TextEditingController();
+  final _passwordcontroller = TextEditingController();
   bool _obscureText = true;
   void visibletest() {
     setState(() {
@@ -45,6 +42,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 const SizedBox(height: 40),
                 TextFormField(
+                  controller: _emailcontroller,
                   cursorColor: Colors.brown.shade800,
                   cursorHeight: 30,
                   decoration: InputDecoration(
@@ -60,14 +58,12 @@ class _SignInState extends State<SignIn> {
                         ),
                         borderRadius: BorderRadius.circular(32)),
                   ),
-                  onChanged: (val) {
-                    setState(() => email = val);
-                  },
                 ),
                 const SizedBox(
                   height: 40.0,
                 ),
                 TextFormField(
+                  controller: _passwordcontroller,
                   cursorHeight: 30,
                   cursorColor: Colors.brown.shade400,
                   obscureText: _obscureText,
@@ -88,9 +84,6 @@ class _SignInState extends State<SignIn> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(32)),
                   ),
-                  onChanged: (val) {
-                    setState(() => password = val);
-                  },
                 ),
                 const Padding(
                     padding:
@@ -111,16 +104,20 @@ class _SignInState extends State<SignIn> {
                           Colors.brown.shade400),
                     ),
                     onPressed: () async {
-                      FirebaseAuth.instance
+                      await FirebaseAuth.instance
                           .signInWithEmailAndPassword(
-                              email: email, password: password)
+                              email: _emailcontroller.text,
+                              password: _passwordcontroller.text)
                           .then((value) {
                         Navigator.of(context).pushReplacementNamed('/home');
                       }).catchError((e) {
                         (e);
                       });
                     },
-                    child: const Text("Sigin"),
+                    child: const Text(
+                      "Sigin",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 const Padding(padding: EdgeInsets.all(10)),
