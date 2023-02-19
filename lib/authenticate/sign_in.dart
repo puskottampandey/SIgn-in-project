@@ -11,12 +11,30 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  bool isloading = false;
   final _emailcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
   bool _obscureText = true;
   void visibletest() {
     setState(() {
       _obscureText = !_obscureText;
+    });
+  }
+
+  Future<void> signin() async {
+    setState(() {
+      isloading = true;
+    });
+    await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: _emailcontroller.text, password: _passwordcontroller.text)
+        .then((value) {
+      Navigator.of(context).pushReplacementNamed('/home');
+    }).catchError((e) {
+      (e);
+    });
+    setState(() {
+      isloading = false;
     });
   }
 
@@ -99,27 +117,25 @@ class _SignInState extends State<SignIn> {
                 SizedBox(
                   width: 150,
                   height: 40,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.brown.shade400),
-                    ),
-                    onPressed: () async {
-                      await FirebaseAuth.instance
-                          .signInWithEmailAndPassword(
-                              email: _emailcontroller.text,
-                              password: _passwordcontroller.text)
-                          .then((value) {
-                        Navigator.of(context).pushReplacementNamed('/home');
-                      }).catchError((e) {
-                        (e);
-                      });
-                    },
-                    child: const Text(
-                      "Sigin",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  child: isloading
+                      ? CircularProgressIndicator(
+                          value: 20,
+                          color: Colors.brown.shade400,
+                          backgroundColor: Colors.brown.shade400,
+                        )
+                      : ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.brown.shade400),
+                          ),
+                          onPressed: () async {
+                            await signin();
+                          },
+                          child: const Text(
+                            "Sigin",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
                 ),
                 const Padding(padding: EdgeInsets.all(10)),
                 Row(
@@ -133,7 +149,6 @@ class _SignInState extends State<SignIn> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                settings: const RouteSettings(),
                                 builder: ((context) => const Register())));
                       },
                       child: Text(

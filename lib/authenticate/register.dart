@@ -105,7 +105,7 @@ class _RegisterState extends State<Register> {
                   onPressed: () async {
                     await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
-                            email: _emailcontroller.text,
+                            email: _emailcontroller.text.trim(),
                             password: _passwordcontroller.text)
                         .then((value) {
                       Navigator.of(context).pushReplacementNamed('/signin');

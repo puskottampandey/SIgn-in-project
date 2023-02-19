@@ -7,11 +7,29 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: const [
-          Icon(Icons.person),
-        ],
-      ),
-    );
+        backgroundColor: Colors.brown.shade100,
+        appBar: AppBar(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          scrolledUnderElevation: 10,
+          backgroundColor: Colors.brown.shade400,
+          title: const Text(
+            "Welcome",
+            style: TextStyle(fontStyle: FontStyle.normal),
+          ),
+          actions: [
+            const Icon(
+              Icons.logout_outlined,
+            ),
+            GestureDetector(
+              onTap: () => {
+                Navigator.of(context).pushReplacementNamed('/signin'),
+              },
+              child: const Text("Logout"),
+            ),
+            const Padding(
+                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5)),
+          ],
+        ));
   }
 }
