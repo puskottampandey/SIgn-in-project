@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:signin/authenticate/register.dart';
-import 'package:signin/home/home.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -33,25 +33,32 @@ class _SignInState extends State<SignIn> {
     }).catchError((e) {
       (e);
     });
+
     setState(() {
       isloading = false;
     });
   }
 
+  Future<void> googlesignin() async {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.brown.shade100,
+      /*
       appBar: AppBar(
+
         backgroundColor: Colors.brown.shade100,
         elevation: 0.0,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-          child: Form(
-            child: Column(
-              children: [
+      */
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 0),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+            child: Form(
+              child: Column(children: [
                 Text(
                   "Welcome ",
                   style: TextStyle(
@@ -118,10 +125,11 @@ class _SignInState extends State<SignIn> {
                   width: 150,
                   height: 40,
                   child: isloading
-                      ? CircularProgressIndicator(
-                          value: 20,
-                          color: Colors.brown.shade400,
-                          backgroundColor: Colors.brown.shade400,
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.brown.shade400,
+                            backgroundColor: Colors.brown.shade400,
+                          ),
                         )
                       : ElevatedButton(
                           style: ButtonStyle(
@@ -159,8 +167,23 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.brown.shade200),
+                  ),
+                  onPressed: () async {},
+                  child: const Center(
+                    child: Text(
+                      "Signin with Google",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                  ),
                 )
-              ],
+              ]),
             ),
           ),
         ),
