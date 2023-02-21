@@ -25,6 +25,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.brown.shade100,
       appBar: AppBar(
+        centerTitle: true,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         scrolledUnderElevation: 10,
         backgroundColor: Colors.brown.shade400,
@@ -46,11 +47,17 @@ class _HomeState extends State<Home> {
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text("Cancel "),
+                      child: Text(
+                        "Cancel ",
+                        style: TextStyle(color: Colors.brown.shade400),
+                      ),
                     ),
                     TextButton(
                       onPressed: () => exit(0),
-                      child: const Text("Ok"),
+                      child: Text(
+                        "Ok",
+                        style: TextStyle(color: Colors.brown.shade400),
+                      ),
                     )
                     /*
                     

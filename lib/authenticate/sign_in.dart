@@ -11,6 +11,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  GoogleSignIn googleAuth = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   bool isloading = false;
   final _emailcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
@@ -25,13 +27,16 @@ class _SignInState extends State<SignIn> {
     setState(() {
       isloading = true;
     });
-    await FirebaseAuth.instance
+    await _auth
         .signInWithEmailAndPassword(
-            email: _emailcontroller.text, password: _passwordcontroller.text)
+            email: _emailcontroller.text.trim(),
+            password: _passwordcontroller.text.trim())
         .then((value) {
       Navigator.of(context).pushReplacementNamed('/home');
     }).catchError((e) {
-      (e);
+      if (e == "user-not-found") {
+        'No user found for that email';
+      }
     });
 
     setState(() {
@@ -68,6 +73,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 const SizedBox(height: 40),
                 TextFormField(
+                  obscuringCharacter: '.',
                   controller: _emailcontroller,
                   cursorColor: Colors.brown.shade800,
                   cursorHeight: 30,
@@ -174,7 +180,11 @@ class _SignInState extends State<SignIn> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.brown.shade200),
                   ),
-                  onPressed: () async {},
+                  onPressed: () async {
+                    googleAuth.signIn().then((result) {}).catchError((e) {
+                      (e);
+                    });
+                  },
                   child: const Center(
                     child: Text(
                       "Signin with Google",
