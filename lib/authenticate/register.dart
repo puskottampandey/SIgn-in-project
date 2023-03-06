@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:signin/models/user.dart';
 import 'package:signin/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:signin/models/user_management.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
