@@ -23,46 +23,36 @@ class _SignInState extends State<SignIn> {
     });
   }
 
-  Future<void> signin() async {
-    setState(() {
-      isloading = true;
-    });
+  final _formKey = GlobalKey<FormState>();
+  signin(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        isloading = true;
+      });
+    }
     await _auth
         .signInWithEmailAndPassword(
             email: _emailcontroller.text.trim(),
             password: _passwordcontroller.text.trim())
         .then((value) {
       Navigator.of(context).pushReplacementNamed('/home');
-    }).catchError((e) {
-      if (e == "user-not-found") {
-        'No user found for that email';
-      }
-    });
+    }).catchError((e) {});
 
     setState(() {
       isloading = false;
     });
   }
 
-  Future<void> googlesignin() async {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.brown.shade100,
-      /*
-      appBar: AppBar(
-
-        backgroundColor: Colors.brown.shade100,
-        elevation: 0.0,
-      ),
-      */
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 0),
+      body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             child: Form(
+              key: _formKey,
               child: Column(children: [
                 Text(
                   "Welcome ",
@@ -90,6 +80,12 @@ class _SignInState extends State<SignIn> {
                         ),
                         borderRadius: BorderRadius.circular(32)),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Email is required";
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(
                   height: 40.0,
@@ -116,10 +112,18 @@ class _SignInState extends State<SignIn> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(32)),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Password is required";
+                    } else if (value.length < 8) {
+                      return "At least 8 letters";
+                    }
+                    return null;
+                  },
                 ),
-                const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 450)),
+                const SizedBox(
+                  height: 20,
+                ),
                 Text(
                   "Forget password?",
                   style: TextStyle(
@@ -143,7 +147,7 @@ class _SignInState extends State<SignIn> {
                                 Colors.brown.shade400),
                           ),
                           onPressed: () async {
-                            await signin();
+                            await signin(context);
                           },
                           child: const Text(
                             "Sigin",
